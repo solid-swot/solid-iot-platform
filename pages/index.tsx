@@ -24,6 +24,7 @@ import { Container } from "@material-ui/core";
 import LoginForm from "../components/loginForm";
 import Profile from "../components/profile";
 import SensorData from "../components/sensorData";
+import PollutionFetcher from "../components/pollution";
 
 export default function Home(): React.ReactElement {
   const { session } = useSession();
@@ -36,6 +37,7 @@ export default function Home(): React.ReactElement {
     <Container>
       <SensorData />
       <Profile />
+      <PollutionFetcher />
     </Container>
   );
 }
