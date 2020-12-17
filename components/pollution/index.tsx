@@ -22,12 +22,13 @@
 import React, { useState } from "react";
 
 import {
-    useSession,
-    CombinedDataProvider,
-    Image,
-    LogoutButton,
-    Text,
-    Value, useDataset,
+  useSession,
+  CombinedDataProvider,
+  Image,
+  LogoutButton,
+  Text,
+  Value,
+  useDataset,
 } from "@inrupt/solid-ui-react";
 
 import {
@@ -41,8 +42,14 @@ import {
   Typography,
 } from "@material-ui/core";
 
+import {
+  getDecimal,
+  getSolidDataset,
+  getThing,
+  getThingAll,
+} from "@inrupt/solid-client";
 import Profile from "../profile";
-import {getDecimal, getSolidDataset, getThing, getThingAll} from "@inrupt/solid-client";
+import sensorList from "./datatreater";
 
 export default function PollutionFetcher(): React.ReactElement {
   const { session } = useSession();
@@ -50,48 +57,33 @@ export default function PollutionFetcher(): React.ReactElement {
   const pollutionURI = "https://solid.luxumbra.fr/iot/sensors.ttl";
   const [editing, setEditing] = useState(false);
 
-
-  function sensorList() {
-      const { dataset, error } = useDataset(pollutionURI);
-      //const { ds, serverRessourceInfo} = getSolidDataset(pollutionURI);
-      const things = getThingAll(dataset);
-      let sensors = []
-      things.forEach(function(thing) {
-          let latitude = getDecimal(thing,"http://schema.org/latitude")
-          let longitude = getDecimal(thing,"http://schema.org/longitude")
-          sensors.push({latitude, longitude});
-      });
-      if (error) return <div>failed to load</div>;
-      if (!dataset) return <div>loading...</div>;
-      return sensors;
-  }
-
   console.log(sensorList());
 
   return (
-      <Container fixed>
-        <Profile />
-        <Box style={{ marginBottom: 16, textAlign: "right" }}>
-          <LogoutButton>
-            <Button variant="contained" color="primary">
-              Log&nbsp;out
-            </Button>
-          </LogoutButton>
-        </Box>
-        <CombinedDataProvider datasetUrl={pollutionURI} thingUrl={pollutionURI + "#sensor-001"}>
-          <Value
-              autosave={false}
-              dataType="decimal"
-              edit={false}
-              inputProps={{
-                className: 'test-class',
-                name: 'test-name'
-              }}
-              onError={function noRefCheck(){}}
-              onSave={function noRefCheck(){}}
-              property="http://schema.org/latitude"
-          />
-        </CombinedDataProvider>
-      </Container>
+    <Container fixed>
+      <Profile />
+      <Box style={{ marginBottom: 16, textAlign: "right" }}>
+        <LogoutButton>
+          <Button variant="contained" color="primary">
+            Log&nbsp;out
+          </Button>
+        </LogoutButton>
+      </Box>
+      <CombinedDataProvider
+        datasetUrl={pollutionURI}
+        thingUrl={`${pollutionURI}#sensor-001`}
+      >
+        <Value
+          autosave={false}
+          dataType="decimal"
+          edit={false}
+          inputProps={{
+            className: "test-class",
+            name: "test-name",
+          }}
+          property="http://schema.org/latitude"
+        />
+      </CombinedDataProvider>
+    </Container>
   );
 }
