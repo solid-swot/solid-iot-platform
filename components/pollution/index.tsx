@@ -46,7 +46,7 @@ import {
   getDecimal,
   getSolidDataset,
   getThing,
-  getThingAll,
+  getThingAll, Thing
 } from "@inrupt/solid-client";
 import Profile from "../profile";
 import sensorList from "./datatreater";
@@ -56,8 +56,14 @@ export default function PollutionFetcher(): React.ReactElement {
   const { webId } = session.info;
   const pollutionURI = "https://solid.luxumbra.fr/iot/sensors.ttl";
   const [editing, setEditing] = useState(false);
-
-  console.log(sensorList());
+  let sensors: Thing[];
+  // eslint-disable-next-line no-void,func-names
+  // @ts-ignore
+  // eslint-disable-next-line no-void
+  void sensorList().then(function (response: Thing[]) {
+    sensors = response;
+    console.log("bonjour", sensors);
+  });
 
   return (
     <Container fixed>

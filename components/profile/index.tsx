@@ -19,7 +19,7 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-import { useState } from "react";
+import React, { useState } from "react";
 
 import {
   useSession,
@@ -108,14 +108,12 @@ export default function LoginForm(): React.ReactElement {
             <Typography gutterBottom variant="h6" component="h3">
               Email Addresses
             </Typography>
-
           </CardContent>
 
           <CardContent>
             <Typography gutterBottom variant="h6" component="h3">
               Phone Numbers
             </Typography>
-
           </CardContent>
 
           <CardActions>
