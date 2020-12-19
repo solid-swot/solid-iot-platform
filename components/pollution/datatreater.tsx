@@ -15,9 +15,9 @@ export default function sensorList() {
     const sensors = [];
     // eslint-disable-next-line func-names
     things.forEach(function (thing) {
-      const latitude = getDecimal(thing, "http://schema.org/latitude");
-      const longitude = getDecimal(thing, "http://schema.org/longitude");
-      sensors.push({ latitude, longitude });
+      const lat = getDecimal(thing, "http://schema.org/latitude");
+      const long = getDecimal(thing, "http://schema.org/longitude");
+      sensors.push({ latitude: lat, longitude: long });
       // console.log(`Sensor position : x = ${longitude} y = ${latitude}`);
       console.log("sensors est : ", sensors);
     });

@@ -19,7 +19,8 @@
     "@solid/lit-term": "^0.4.1",
     "next": "9.5.2",
     "react": "16.13.1",
-    "react-dom": "16.13.1"
+    "react-dom": "16.13.1",
+    "@syncfusion/ej2-react-maps": "18.4.30"
   },
   "devDependencies": {
     "@inrupt/eslint-config-base": "0.0.4",
