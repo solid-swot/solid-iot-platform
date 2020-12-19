@@ -21,23 +21,26 @@
 
 import { useSession } from "@inrupt/solid-ui-react/dist";
 import { Container } from "@material-ui/core";
+import React from "react";
 import LoginForm from "../components/loginForm";
 import Profile from "../components/profile";
 import SensorData from "../components/sensorData";
 import PollutionFetcher from "../components/pollution";
+import SensorMap from "../components/sensorMap";
+import SensorMap2 from "../components/sensorMap/index2";
 
 export default function Home(): React.ReactElement {
   const { session } = useSession();
 
-  if (!session.info.isLoggedIn) {
+  /* if (!session.info.isLoggedIn) {
     return <LoginForm />;
-  }
+  } */
 
   return (
     <Container>
       <SensorData />
       <Profile />
-      <PollutionFetcher />
+      <SensorMap />
     </Container>
   );
 }

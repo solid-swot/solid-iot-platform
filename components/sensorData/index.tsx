@@ -43,20 +43,24 @@ import {
 
 import BusinessIcon from "@material-ui/icons/Business";
 
-import { SCHEMA_INRUPT_EXT, RDFS, FOAF, VCARD } from "@inrupt/lit-generated-vocab-common";
+import {
+  SCHEMA_INRUPT_EXT,
+  RDFS,
+  FOAF,
+  VCARD,
+} from "@inrupt/lit-generated-vocab-common";
 
 export default function LoginForm(): React.ReactElement {
   const { session } = useSession();
   const { webId } = session.info;
   const [editing, setEditing] = useState(false);
   const sensorData = "https://solid.luxumbra.fr/iot/sensors.ttl";
-  const sensor001Thing = "https://solid.luxumbra.fr/iot/sensors.ttl#sensor-001"
+  const sensor001Thing = "https://solid.luxumbra.fr/iot/sensors.ttl#sensor-001";
 
   return (
     <Container fixed>
       <CombinedDataProvider datasetUrl={sensorData} thingUrl={sensor001Thing}>
         <Card style={{ maxWidth: 480 }}>
-         
           <CardContent>
             <Typography
               variant="body2"
@@ -79,7 +83,6 @@ export default function LoginForm(): React.ReactElement {
                   property="http://schema.org/longitude"
                 />
               </Container>
-              
             </Typography>
           </CardContent>
 

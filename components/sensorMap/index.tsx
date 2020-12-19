@@ -34,20 +34,25 @@ import {
   // eslint-disable-next-line import/no-unresolved
 } from "@syncfusion/ej2-react-maps";
 import { Container } from "@material-ui/core";
-import { Thing } from "@inrupt/solid-client";
-import sensorList from "../pollution/datatreater";
+import { getDecimal, getThingAll, Thing } from "@inrupt/solid-client";
+import { useDataset } from "@inrupt/solid-ui-react";
 
 export default function SensorMap(): React.ReactElement {
-  let sensors: { number }[];
-  sensors = [];
-  // eslint-disable-next-line no-void,func-names
-  // @ts-ignore
-  // eslint-disable-next-line no-void
-  void sensorList().then(function (response: { number; number }[]) {
-    sensors = response;
-    console.log("pos : ", sensors);
+  const pollutionURI = "https://solid.luxumbra.fr/iot/sensors.ttl";
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const { dataset, error } = useDataset(pollutionURI);
+  if (error) return <div>failed to load</div>;
+  if (!dataset) return <div>loading...</div>;
+  const things = getThingAll(dataset);
+  const sensors: { latitude: number; longitude: number }[] = [];
+  // eslint-disable-next-line func-names
+  things.forEach(function (thing) {
+    const lat: number = getDecimal(thing, "http://schema.org/latitude");
+    const long: number = getDecimal(thing, "http://schema.org/longitude");
+    sensors.push({ latitude: lat, longitude: long });
+    // console.log(`Sensor position : x = ${longitude} y = ${latitude}`);
+    console.log("sensors est : ", sensors);
   });
-
   return (
     <Container>
       <MapsComponent
