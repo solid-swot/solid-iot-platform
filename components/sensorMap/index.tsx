@@ -31,6 +31,7 @@ import {
   MarkerDirective,
   Marker,
   Inject,
+  MapsTooltip,
   // eslint-disable-next-line import/no-unresolved
 } from "@syncfusion/ej2-react-maps";
 import { Container } from "@material-ui/core";
@@ -60,15 +61,20 @@ export default function SensorMap(): React.ReactElement {
         zoomSettings={{ zoomFactor: 15 }}
         centerPosition={{ latitude: 43.57079, longitude: 1.46625 }}
       >
-        <Inject services={[Marker]} />
+        <Inject services={[Marker, MapsTooltip]} />
         <LayersDirective>
           <LayerDirective layerType="OSM">
             <MarkersDirective>
               <MarkerDirective
                 visible
+                animationDuration={3}
                 height={25}
                 width={20}
                 dataSource={sensors}
+                tooltipSettings={{
+                  visible: true,
+                  valuePath: "longitude", // Displays the "longitude" value in sensor object
+                }}
               />
             </MarkersDirective>
           </LayerDirective>
