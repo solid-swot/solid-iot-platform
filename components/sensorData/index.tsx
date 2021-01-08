@@ -21,7 +21,9 @@
 
 import {
   getDecimal,
+  getInteger,
   getSolidDataset,
+  getStringNoLocale,
   getThing,
   getThingAll,
   SolidDataset,
@@ -39,14 +41,29 @@ import {
   Marker,
   MarkerDirective,
   MarkersDirective,
+  NavigationLineDirective,
+  NavigationLinesDirective,
 } from "@syncfusion/ej2-react-maps";
 import SensorMap from "../sensorMap";
 
-async function LastValue(sensor: Thing): Promise<number> {
-  const sensorDataUri = "https://solid.luxumbra.fr/iot/sensors.ttl"; // TODO
-  const dataset = await getSolidDataset(sensorDataUri);
-  const observation = getThing(dataset, `${sensorDataUri}#sensor-001`);
-  return getDecimal(observation, "http://schema.org/latitude");
+// TODO
+async function LastValue(name: string): Promise<number> {
+  const sensorDataUri = `https://solid.luxumbra.fr/iot/observations/${name}.ttl`;
+  // console.log(`Le nom du thing sensor est : ${name}`);
+  let dataset: SolidDataset;
+  try {
+    dataset = await getSolidDataset(sensorDataUri);
+  } catch (e) {
+    console.log(`LAST VALUE  : erreur de getSolidDataset : ${e}`);
+  }
+  const observations = getThingAll(dataset);
+  const obs1 = observations[0];
+  const value: number = getInteger(
+    obs1,
+    "http://www.w3.org/ns/sosa/hasSimpleResult"
+  );
+  console.log(`LAST VALUE  : L'observation vaut : ${value}`);
+  return value;
 }
 
 export default function SensorDataMap(): React.ReactElement {
@@ -55,15 +72,25 @@ export default function SensorDataMap(): React.ReactElement {
   useEffect(() => {
     // Create an scoped async function in the hook
     async function hookFunction() {
-      const dataset: SolidDataset = await getSolidDataset(pollutionURI);
+      let dataset: SolidDataset;
+      try {
+        dataset = await getSolidDataset(pollutionURI);
+      } catch (e) {
+        console.log(`erreur de getSolidDataset : ${e}`);
+      }
       const things = getThingAll(dataset);
       let val: number;
       for (const thing of things) {
         const lat: number = getDecimal(thing, "http://schema.org/latitude");
         const long: number = getDecimal(thing, "http://schema.org/longitude");
+        const name: string = getStringNoLocale(
+          thing,
+          "http://xmlns.com/foaf/0.1/name"
+        );
+        console.log(`Name : ${name}`);
         try {
           // eslint-disable-next-line no-await-in-loop
-          val = await LastValue(thing);
+          val = await LastValue(name);
         } catch (e) {
           console.log(e);
           val = -1;
@@ -91,7 +118,8 @@ export default function SensorDataMap(): React.ReactElement {
     const a = hookFunction();
   }, [sensorList]);
 
-  // return <SensorMap sensors={sensorList} />;
+  return <SensorMap sensors={sensorList} />;
+  /* console.log("Map sensors are : ", sensorList);
   return (
     <Container>
       <MapsComponent
@@ -115,9 +143,26 @@ export default function SensorDataMap(): React.ReactElement {
                 }}
               />
             </MarkersDirective>
+            <NavigationLinesDirective>
+              <NavigationLineDirective
+                visible
+                latitude={[
+                  43.57125022761893,
+                  43.57034852586817,
+                  43.57168552708072,
+                ]}
+                longitude={[
+                  1.4690780639648438,
+                  1.465752124786377,
+                  1.4675116539001465,
+                ]}
+                angle={0}
+                width={2}
+              />
+            </NavigationLinesDirective>
           </LayerDirective>
         </LayersDirective>
       </MapsComponent>
     </Container>
-  );
+  ); */
 }

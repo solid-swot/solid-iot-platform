@@ -29,6 +29,9 @@ import {
   Marker,
   Inject,
   MapsTooltip,
+  NavigationLine,
+  NavigationLineDirective,
+  NavigationLinesDirective,
 } from "@syncfusion/ej2-react-maps";
 import { Container } from "@material-ui/core";
 
@@ -44,6 +47,55 @@ export default function SensorMap(prop): React.ReactElement {
       <MapsComponent
         id="maps"
         zoomSettings={{ zoomFactor: 15 }}
+        centerPosition={{ latitude: 43.57079, longitude: 1.46625 }}
+      >
+        <Inject services={[Marker, MapsTooltip, NavigationLine]} />
+        <LayersDirective>
+          <LayerDirective layerType="OSM">
+            <MarkersDirective>
+              <MarkerDirective
+                visible
+                animationDuration={3}
+                height={25}
+                width={20}
+                dataSource={prop.sensors}
+                tooltipSettings={{
+                  visible: true,
+                  valuePath: "value",
+                }}
+              />
+            </MarkersDirective>
+            <NavigationLinesDirective>
+              <NavigationLineDirective
+                visible
+                latitude={[
+                  43.57125022761893,
+                  43.57034852586817,
+                  43.57168552708072,
+                ]}
+                longitude={[
+                  1.4690780639648438,
+                  1.465752124786377,
+                  1.4675116539001465,
+                ]}
+                angle={0}
+                width={2}
+              />
+            </NavigationLinesDirective>
+          </LayerDirective>
+        </LayersDirective>
+      </MapsComponent>
+    </Container>
+  );
+  /* return (
+    <Container>
+      <MapsComponent
+        id="maps"
+        zoomSettings={{
+          zoomFactor: 15,
+          enable: true,
+          toolbars: ["Zoom", "ZoomIn", "ZoomOut", "Pan", "Reset"],
+        }}
         centerPosition={{ latitude: 43.57079, longitude: 1.46625 }}
       >
         <Inject services={[Marker, MapsTooltip]} />
@@ -66,5 +118,5 @@ export default function SensorMap(prop): React.ReactElement {
         </LayersDirective>
       </MapsComponent>
     </Container>
-  );
+  ); */
 }

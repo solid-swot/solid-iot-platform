@@ -42,6 +42,7 @@ export default function Home(): React.ReactElement {
           </Button>
         </LogoutButton>
       </Box>
+      <PollutionFetcher />
       <SensorData />
     </Container>
   );

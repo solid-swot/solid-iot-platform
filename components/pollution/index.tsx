@@ -60,34 +60,27 @@ export default function PollutionFetcher(): React.ReactElement {
   // eslint-disable-next-line no-void,func-names
   // @ts-ignore
   // eslint-disable-next-line no-void
-  void sensorList().then(function (response: Thing[]) {
+  /* void sensorList().then(function (response: Thing[]) {
     sensors = response;
     console.log("bonjour", sensors);
-  });
+  }); */
 
   return (
     <Container fixed>
-      <Profile />
-      <Box style={{ marginBottom: 16, textAlign: "right" }}>
-        <LogoutButton>
-          <Button variant="contained" color="primary">
-            Log&nbsp;out
-          </Button>
-        </LogoutButton>
-      </Box>
       <CombinedDataProvider
         datasetUrl={pollutionURI}
         thingUrl={`${pollutionURI}#sensor-001`}
       >
+        Nom :
         <Value
           autosave={false}
-          dataType="decimal"
+          dataType="string"
           edit={false}
           inputProps={{
             className: "test-class",
             name: "test-name",
           }}
-          property="http://schema.org/latitude"
+          property="http://xmlns.com/foaf/0.1/name"
         />
       </CombinedDataProvider>
     </Container>
