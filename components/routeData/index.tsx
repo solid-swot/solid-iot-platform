@@ -34,7 +34,7 @@ export default function RouteData(): React.ReactElement {
     longitudes: [],
   };
   const { dataset, error } = useDataset(routeURI);
-  if (error) return <div>failed to load</div>;
+  if (error) return <SensorData route={route} />;
   if (!dataset) return <div>loading...</div>;
   const things = getThingAll(dataset);
   things.forEach(function (thing) {
@@ -44,6 +44,6 @@ export default function RouteData(): React.ReactElement {
     route.longitudes.push(longitude);
   });
 
-  // return <SensorData route={route} />;
-  return <SensorMap route={route} sensors={[]} />;
+  return <SensorData route={route} />;
+  // return <SensorMap route={route} sensors={[]} />;
 }

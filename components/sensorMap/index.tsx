@@ -42,7 +42,7 @@ import { Container } from "@material-ui/core";
  * @constructor
  */
 export default function SensorMap(prop): React.ReactElement {
-  console.log("Map sensors are : ", prop.sensors);
+  console.log("SENSOR MAP : sensors are : ", prop.sensors);
   return (
     <Container>
       <MapsComponent

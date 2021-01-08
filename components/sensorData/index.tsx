@@ -41,8 +41,10 @@ import {
   Marker,
   MarkerDirective,
   MarkersDirective,
+  NavigationLine,
   NavigationLineDirective,
   NavigationLinesDirective,
+  Zoom,
 } from "@syncfusion/ej2-react-maps";
 import SensorMap from "../sensorMap";
 
@@ -66,7 +68,7 @@ async function LastValue(name: string): Promise<number> {
   return value;
 }
 
-export default function SensorDataMap(): React.ReactElement {
+export default function SensorDataMap(prop): React.ReactElement {
   const pollutionURI = "https://solid.luxumbra.fr/iot/sensors.ttl";
   const [sensorList, setSensorList] = useState([]);
   useEffect(() => {
@@ -118,16 +120,20 @@ export default function SensorDataMap(): React.ReactElement {
     const a = hookFunction();
   }, [sensorList]);
 
-  return <SensorMap sensors={sensorList} />;
+  return <SensorMap sensors={sensorList} route={prop.route} />;
   /* console.log("Map sensors are : ", sensorList);
   return (
     <Container>
       <MapsComponent
         id="maps"
-        zoomSettings={{ zoomFactor: 15 }}
+        zoomSettings={{
+          zoomFactor: 15,
+          enable: true,
+          toolbars: ["Zoom", "ZoomIn", "ZoomOut", "Pan", "Reset"],
+        }}
         centerPosition={{ latitude: 43.57079, longitude: 1.46625 }}
       >
-        <Inject services={[Marker, MapsTooltip]} />
+        <Inject services={[Marker, MapsTooltip, NavigationLine, Zoom]} />
         <LayersDirective>
           <LayerDirective layerType="OSM">
             <MarkersDirective>
@@ -139,23 +145,15 @@ export default function SensorDataMap(): React.ReactElement {
                 dataSource={sensorList}
                 tooltipSettings={{
                   visible: true,
-                  valuePath: "value", // Displays the "longitude" value in sensor object
+                  valuePath: "value",
                 }}
               />
             </MarkersDirective>
             <NavigationLinesDirective>
               <NavigationLineDirective
                 visible
-                latitude={[
-                  43.57125022761893,
-                  43.57034852586817,
-                  43.57168552708072,
-                ]}
-                longitude={[
-                  1.4690780639648438,
-                  1.465752124786377,
-                  1.4675116539001465,
-                ]}
+                latitude={prop.route.latitudes}
+                longitude={prop.route.longitudes}
                 angle={0}
                 width={2}
               />
