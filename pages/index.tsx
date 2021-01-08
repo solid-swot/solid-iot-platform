@@ -25,13 +25,21 @@ import React from "react";
 import LoginForm from "../components/loginForm";
 import Profile from "../components/profile";
 import SensorData from "../components/sensorData";
+import RouteData from "../components/routeData";
+import PollutionFetcher from "../components/pollution";
+import SensorMap from "../components/sensorMap";
 
 export default function Home(): React.ReactElement {
   const { session } = useSession();
 
-  /* if (!session.info.isLoggedIn) {
-    return <LoginForm />;
-  } */
+  if (!session.info.isLoggedIn) {
+    return (
+      <Container>
+        <LoginForm />
+        <SensorMap route={{ latitudes: [], longitudes: [] }} sensors={[]} />
+      </Container>
+    );
+  }
 
   return (
     <Container>
@@ -42,8 +50,46 @@ export default function Home(): React.ReactElement {
           </Button>
         </LogoutButton>
       </Box>
-      <PollutionFetcher />
-      <SensorData />
+      <RouteData />
     </Container>
   );
+
+  /* if (!session.info.isLoggedIn) {
+    return (
+      <Container>
+        <LoginForm />
+        <SensorData route={{ latitudes: [], longitudes: [] }} />
+      </Container>
+    );
+  }
+
+  const route = {
+    latitudes: [43.57125022761893, 43.57034852586817, 43.57168552708072],
+    longitudes: [1.4690780639648438, 1.465752124786377, 1.4675116539001465],
+  };
+
+  return (
+    <Container>
+      <Box style={{ marginBottom: 16, textAlign: "right" }}>
+        <LogoutButton>
+          <Button variant="contained" color="primary">
+            Log&nbsp;out
+          </Button>
+        </LogoutButton>
+      </Box>
+      <SensorData route={route} />
+    </Container>
+  );
+  /* return (
+    <Container>
+      <Box style={{ marginBottom: 16, textAlign: "right" }}>
+        <LogoutButton>
+          <Button variant="contained" color="primary">
+            Log&nbsp;out
+          </Button>
+        </LogoutButton>
+      </Box>
+      <RouteData />
+    </Container>
+  ); */
 }

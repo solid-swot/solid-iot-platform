@@ -32,6 +32,7 @@ import {
   NavigationLine,
   NavigationLineDirective,
   NavigationLinesDirective,
+  Zoom,
 } from "@syncfusion/ej2-react-maps";
 import { Container } from "@material-ui/core";
 
@@ -46,10 +47,14 @@ export default function SensorMap(prop): React.ReactElement {
     <Container>
       <MapsComponent
         id="maps"
-        zoomSettings={{ zoomFactor: 15 }}
+        zoomSettings={{
+          zoomFactor: 15,
+          enable: true,
+          toolbars: ["Zoom", "ZoomIn", "ZoomOut", "Pan", "Reset"],
+        }}
         centerPosition={{ latitude: 43.57079, longitude: 1.46625 }}
       >
-        <Inject services={[Marker, MapsTooltip, NavigationLine]} />
+        <Inject services={[Marker, MapsTooltip, NavigationLine, Zoom]} />
         <LayersDirective>
           <LayerDirective layerType="OSM">
             <MarkersDirective>
@@ -68,16 +73,8 @@ export default function SensorMap(prop): React.ReactElement {
             <NavigationLinesDirective>
               <NavigationLineDirective
                 visible
-                latitude={[
-                  43.57125022761893,
-                  43.57034852586817,
-                  43.57168552708072,
-                ]}
-                longitude={[
-                  1.4690780639648438,
-                  1.465752124786377,
-                  1.4675116539001465,
-                ]}
+                latitude={prop.route.latitudes}
+                longitude={prop.route.longitudes}
                 angle={0}
                 width={2}
               />
@@ -87,36 +84,4 @@ export default function SensorMap(prop): React.ReactElement {
       </MapsComponent>
     </Container>
   );
-  /* return (
-    <Container>
-      <MapsComponent
-        id="maps"
-        zoomSettings={{
-          zoomFactor: 15,
-          enable: true,
-          toolbars: ["Zoom", "ZoomIn", "ZoomOut", "Pan", "Reset"],
-        }}
-        centerPosition={{ latitude: 43.57079, longitude: 1.46625 }}
-      >
-        <Inject services={[Marker, MapsTooltip]} />
-        <LayersDirective>
-          <LayerDirective layerType="OSM">
-            <MarkersDirective>
-              <MarkerDirective
-                visible
-                animationDuration={3}
-                height={25}
-                width={20}
-                dataSource={prop.sensors}
-                tooltipSettings={{
-                  visible: true,
-                  valuePath: "value", // Displays the "longitude" value in sensor object
-                }}
-              />
-            </MarkersDirective>
-          </LayerDirective>
-        </LayersDirective>
-      </MapsComponent>
-    </Container>
-  ); */
 }
