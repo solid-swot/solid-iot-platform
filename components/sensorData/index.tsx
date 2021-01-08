@@ -49,7 +49,7 @@ import {
 import SensorMap from "../sensorMap";
 
 // TODO
-async function LastValue(name: string): Promise<number> {
+async function LastValue(name: string): Promise<string> {
   const sensorDataUri = `https://solid.luxumbra.fr/iot/observations/${name}.ttl`;
   // console.log(`Le nom du thing sensor est : ${name}`);
   let dataset: SolidDataset;
@@ -60,7 +60,7 @@ async function LastValue(name: string): Promise<number> {
   }
   const observations = getThingAll(dataset);
   const obs1 = observations[0];
-  const value: number = getInteger(
+  const value: string = getStringNoLocale(
     obs1,
     "http://www.w3.org/ns/sosa/hasSimpleResult"
   );
@@ -81,7 +81,7 @@ export default function SensorDataMap(prop): React.ReactElement {
         console.log(`erreur de getSolidDataset : ${e}`);
       }
       const things = getThingAll(dataset);
-      let val: number;
+      let val: string;
       for (const thing of things) {
         const lat: number = getDecimal(thing, "http://schema.org/latitude");
         const long: number = getDecimal(thing, "http://schema.org/longitude");
@@ -95,7 +95,7 @@ export default function SensorDataMap(prop): React.ReactElement {
           val = await LastValue(name);
         } catch (e) {
           console.log(e);
-          val = -1;
+          val = "error";
         }
         const i = sensorList.findIndex(function (element, index, array) {
           return element.latitude === lat && element.longitude === long;
@@ -114,8 +114,9 @@ export default function SensorDataMap(prop): React.ReactElement {
           };
         }
         console.log("sensors est : ", sensorList);
-        setSensorList(sensorList);
+        // setSensorList(sensorList);
       }
+      setSensorList(sensorList);
     }
     const a = hookFunction();
   }, [sensorList]);

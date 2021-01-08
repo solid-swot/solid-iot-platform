@@ -54,7 +54,24 @@ export default function Home(): React.ReactElement {
     </Container>
   );
 
-  /* return (
+  /* const sensorList = [
+    {
+      latitude: 43.57079,
+      longitude: 1.46625,
+      value: 1,
+    },
+    {
+      latitude: 43.56976,
+      longitude: 1.46782,
+      value: 2,
+    },
+  ];
+  const route = {
+    latitudes: [43.57079, 43.56976],
+    longitudes: [1.46625, 1.46782],
+  };
+
+  return (
     <Container>
       <Box style={{ marginBottom: 16, textAlign: "right" }}>
         <LogoutButton>
@@ -63,7 +80,7 @@ export default function Home(): React.ReactElement {
           </Button>
         </LogoutButton>
       </Box>
-      <SensorData />
+      <SensorMap sensors={sensorList} route={route} />
     </Container>
   ); */
 }

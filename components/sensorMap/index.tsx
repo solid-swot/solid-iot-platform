@@ -36,11 +36,6 @@ import {
 } from "@syncfusion/ej2-react-maps";
 import { Container } from "@material-ui/core";
 
-/**
- * Prop issue that could to be fixed but not the priority
- * @param prop
- * @constructor
- */
 export default function SensorMap(prop): React.ReactElement {
   console.log("SENSOR MAP : sensors are : ", prop.sensors);
   return (
@@ -50,6 +45,7 @@ export default function SensorMap(prop): React.ReactElement {
         zoomSettings={{
           zoomFactor: 15,
           enable: true,
+          mouseWheelZoom: true,
           toolbars: ["Zoom", "ZoomIn", "ZoomOut", "Pan", "Reset"],
         }}
         centerPosition={{ latitude: 43.57079, longitude: 1.46625 }}

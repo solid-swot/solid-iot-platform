@@ -22,6 +22,7 @@
 import * as React from "react";
 import { useDataset, useSession } from "@inrupt/solid-ui-react";
 import { getDecimal, getThingAll } from "@inrupt/solid-client";
+import { Container } from "@material-ui/core";
 import SensorMap from "../sensorMap";
 import SensorData from "../sensorData";
 
@@ -34,7 +35,20 @@ export default function RouteData(): React.ReactElement {
     longitudes: [],
   };
   const { dataset, error } = useDataset(routeURI);
-  if (error) return <SensorData route={route} />;
+  if (error) {
+    console.log(
+      "Echec de la tentative de connexion au Pod : Accès requiert authentification"
+    );
+    return (
+      <Container>
+        <p>
+          Echec de la tentative de connexion au Pod : Accès au routes requiert
+          une authentification
+        </p>
+        <SensorData route={route} />
+      </Container>
+    );
+  }
   if (!dataset) return <div>loading...</div>;
   const things = getThingAll(dataset);
   things.forEach(function (thing) {
@@ -45,5 +59,4 @@ export default function RouteData(): React.ReactElement {
   });
 
   return <SensorData route={route} />;
-  // return <SensorMap route={route} sensors={[]} />;
 }
