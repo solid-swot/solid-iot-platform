@@ -19,15 +19,12 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-import { useSession } from "@inrupt/solid-ui-react/dist";
-import { Container } from "@material-ui/core";
+import { useSession, LogoutButton } from "@inrupt/solid-ui-react/dist";
+import { Box, Button, Container } from "@material-ui/core";
 import React from "react";
 import LoginForm from "../components/loginForm";
 import Profile from "../components/profile";
 import SensorData from "../components/sensorData";
-import PollutionFetcher from "../components/pollution";
-import SensorMap from "../components/sensorMap";
-import SensorMap2 from "../components/sensorMap/index2";
 
 export default function Home(): React.ReactElement {
   const { session } = useSession();
@@ -38,9 +35,14 @@ export default function Home(): React.ReactElement {
 
   return (
     <Container>
+      <Box style={{ marginBottom: 16, textAlign: "right" }}>
+        <LogoutButton>
+          <Button variant="contained" color="primary">
+            Log&nbsp;out
+          </Button>
+        </LogoutButton>
+      </Box>
       <SensorData />
-      <Profile />
-      <SensorMap />
     </Container>
   );
 }

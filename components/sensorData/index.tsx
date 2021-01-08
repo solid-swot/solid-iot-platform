@@ -19,84 +19,105 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-import { useState } from "react";
-
 import {
-  useSession,
-  CombinedDataProvider,
-  Image,
-  LogoutButton,
-  Text,
-  Value,
-} from "@inrupt/solid-ui-react";
-
+  getDecimal,
+  getSolidDataset,
+  getThing,
+  getThingAll,
+  SolidDataset,
+  Thing,
+} from "@inrupt/solid-client";
+import * as React from "react";
+import { useEffect, useState } from "react";
+import { Container } from "@material-ui/core";
 import {
-  Box,
-  Button,
-  Card,
-  CardActions,
-  CardActionArea,
-  CardContent,
-  Container,
-  Typography,
-} from "@material-ui/core";
+  Inject,
+  LayerDirective,
+  LayersDirective,
+  MapsComponent,
+  MapsTooltip,
+  Marker,
+  MarkerDirective,
+  MarkersDirective,
+} from "@syncfusion/ej2-react-maps";
+import SensorMap from "../sensorMap";
 
-import BusinessIcon from "@material-ui/icons/Business";
+async function LastValue(sensor: Thing): Promise<number> {
+  const sensorDataUri = "https://solid.luxumbra.fr/iot/sensors.ttl"; // TODO
+  const dataset = await getSolidDataset(sensorDataUri);
+  const observation = getThing(dataset, `${sensorDataUri}#sensor-001`);
+  return getDecimal(observation, "http://schema.org/latitude");
+}
 
-import {
-  SCHEMA_INRUPT_EXT,
-  RDFS,
-  FOAF,
-  VCARD,
-} from "@inrupt/lit-generated-vocab-common";
+export default function SensorDataMap(): React.ReactElement {
+  const pollutionURI = "https://solid.luxumbra.fr/iot/sensors.ttl";
+  const [sensorList, setSensorList] = useState([]);
+  useEffect(() => {
+    // Create an scoped async function in the hook
+    async function hookFunction() {
+      const dataset: SolidDataset = await getSolidDataset(pollutionURI);
+      const things = getThingAll(dataset);
+      let val: number;
+      for (const thing of things) {
+        const lat: number = getDecimal(thing, "http://schema.org/latitude");
+        const long: number = getDecimal(thing, "http://schema.org/longitude");
+        try {
+          // eslint-disable-next-line no-await-in-loop
+          val = await LastValue(thing);
+        } catch (e) {
+          console.log(e);
+          val = -1;
+        }
+        const i = sensorList.findIndex(function (element, index, array) {
+          return element.latitude === lat && element.longitude === long;
+        });
+        if (i === -1) {
+          const a = sensorList.push({
+            latitude: lat,
+            longitude: long,
+            value: val,
+          }); // value: val,
+        } else {
+          sensorList[i] = {
+            latitude: lat,
+            longitude: long,
+            value: val,
+          };
+        }
+        console.log("sensors est : ", sensorList);
+        setSensorList(sensorList);
+      }
+    }
+    const a = hookFunction();
+  }, [sensorList]);
 
-export default function LoginForm(): React.ReactElement {
-  const { session } = useSession();
-  const { webId } = session.info;
-  const [editing, setEditing] = useState(false);
-  const sensorData = "https://solid.luxumbra.fr/iot/sensors.ttl";
-  const sensor001Thing = "https://solid.luxumbra.fr/iot/sensors.ttl#sensor-001";
-
+  // return <SensorMap sensors={sensorList} />;
   return (
-    <Container fixed>
-      <CombinedDataProvider datasetUrl={sensorData} thingUrl={sensor001Thing}>
-        <Card style={{ maxWidth: 480 }}>
-          <CardContent>
-            <Typography
-              variant="body2"
-              color="textSecondary"
-              component="p"
-              style={{
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              <Container>
-                <Value
-                  dataType="decimal"
-                  property="http://schema.org/latitude"
-                />
-              </Container>
-              <Container>
-                <Value
-                  dataType="decimal"
-                  property="http://schema.org/longitude"
-                />
-              </Container>
-            </Typography>
-          </CardContent>
-
-          <CardActions>
-            <Button
-              size="small"
-              color="primary"
-              onClick={() => setEditing(!editing)}
-            >
-              Refresh
-            </Button>
-          </CardActions>
-        </Card>
-      </CombinedDataProvider>
+    <Container>
+      <MapsComponent
+        id="maps"
+        zoomSettings={{ zoomFactor: 15 }}
+        centerPosition={{ latitude: 43.57079, longitude: 1.46625 }}
+      >
+        <Inject services={[Marker, MapsTooltip]} />
+        <LayersDirective>
+          <LayerDirective layerType="OSM">
+            <MarkersDirective>
+              <MarkerDirective
+                visible
+                animationDuration={3}
+                height={25}
+                width={20}
+                dataSource={sensorList}
+                tooltipSettings={{
+                  visible: true,
+                  valuePath: "value", // Displays the "longitude" value in sensor object
+                }}
+              />
+            </MarkersDirective>
+          </LayerDirective>
+        </LayersDirective>
+      </MapsComponent>
     </Container>
   );
 }

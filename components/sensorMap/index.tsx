@@ -19,10 +19,7 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-// tslint:disable
 import * as React from "react";
-import * as ReactDOM from "react-dom";
-// @ts-ignore
 import {
   MapsComponent,
   LayersDirective,
@@ -32,28 +29,16 @@ import {
   Marker,
   Inject,
   MapsTooltip,
-  // eslint-disable-next-line import/no-unresolved
 } from "@syncfusion/ej2-react-maps";
 import { Container } from "@material-ui/core";
-import { getDecimal, getThingAll, Thing } from "@inrupt/solid-client";
-import { useDataset } from "@inrupt/solid-ui-react";
 
-export default function SensorMap(): React.ReactElement {
-  const pollutionURI = "https://solid.luxumbra.fr/iot/sensors.ttl";
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { dataset, error } = useDataset(pollutionURI);
-  if (error) return <div>failed to load</div>;
-  if (!dataset) return <div>loading...</div>;
-  const things = getThingAll(dataset);
-  const sensors: { latitude: number; longitude: number }[] = [];
-  // eslint-disable-next-line func-names
-  things.forEach(function (thing) {
-    const lat: number = getDecimal(thing, "http://schema.org/latitude");
-    const long: number = getDecimal(thing, "http://schema.org/longitude");
-    sensors.push({ latitude: lat, longitude: long });
-    // console.log(`Sensor position : x = ${longitude} y = ${latitude}`);
-    console.log("sensors est : ", sensors);
-  });
+/**
+ * Prop issue that could to be fixed but not the priority
+ * @param prop
+ * @constructor
+ */
+export default function SensorMap(prop): React.ReactElement {
+  console.log("Map sensors are : ", prop.sensors);
   return (
     <Container>
       <MapsComponent
@@ -70,10 +55,10 @@ export default function SensorMap(): React.ReactElement {
                 animationDuration={3}
                 height={25}
                 width={20}
-                dataSource={sensors}
+                dataSource={prop.sensors}
                 tooltipSettings={{
                   visible: true,
-                  valuePath: "longitude", // Displays the "longitude" value in sensor object
+                  valuePath: "value", // Displays the "longitude" value in sensor object
                 }}
               />
             </MarkersDirective>

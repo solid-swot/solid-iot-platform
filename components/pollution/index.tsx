@@ -46,10 +46,10 @@ import {
   getDecimal,
   getSolidDataset,
   getThing,
-  getThingAll, Thing
+  getThingAll,
+  Thing,
 } from "@inrupt/solid-client";
 import Profile from "../profile";
-import sensorList from "./datatreater";
 
 export default function PollutionFetcher(): React.ReactElement {
   const { session } = useSession();
