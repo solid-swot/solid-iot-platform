@@ -15,8 +15,8 @@ Version:              Demo
 #define BAUD_SPEED 115200
 #define PIN_SENSOR A0
 
-const char* ssid = "HUAWEI"; // WiFi name
-const char* password ="xiexiaotong"; // WiFi password
+const char* ssid = "REPLACE ME"; // WiFi name
+const char* password ="REPLACE ME"; // WiFi password
 
 String host = "solid-iot.solidcommunity.net"; // host
 String urlParams = "iot/testxie.ttl"; // path
@@ -69,7 +69,7 @@ void setup() {
   }
   Serial.println();
   Serial.println("Connection with NTP is established!");
-  Serial.print("Syncing with NTP");
+  Serial.print("Syncing with NTP"); // Leave a bit of time for synchronization with NTP to avoid '1970-01-01-00:00:00'
   while(i<20){
     delay(1000);
     Serial.print(" .");
@@ -91,15 +91,7 @@ void loop() {
 
 
 void postContent(){
-  // Get timestamp
-  String ts = getTimestamp();
-  String obs = "<http://insa-toulouse.fr/solid-iot/pollution/obs-"+ts+">";
-  // String for Turtle format
-  String payloadTurtle = "INSERT DATA{\r\n";
-  payloadTurtle += obs + " a " + observation + ".\r\n";
-  payloadTurtle += obs + hasSimpleResult + "\"" + String(getTemperature()) + " °C" + "\".\r\n";
-  payloadTurtle += obs + resultTime + "\"" + ts +  "\"^^" + dateTime + ".\r\n";
-  payloadTurtle += "}";
+  String payloadTurtle = getPayload();
   // String for https request
   String httpsRequest = String("PATCH /iot/sensor-001.ttl")+" HTTP/1.1\r\n" +
                        "Host: " + host + "\r\n" +
@@ -152,6 +144,18 @@ void postContent(){
   Serial.println("------------------------------------------------------------------------------");          
 }
 
+String getPayload(){
+  // Get timestamp
+  String ts = getTimestamp();
+  String obs = "<http://insa-toulouse.fr/solid-iot/pollution/obs-"+ts+">";
+  // String for Turtle format
+  String payloadTurtle = "INSERT DATA{\r\n";
+  payloadTurtle += obs + " a " + observation + ".\r\n";
+  payloadTurtle += obs + hasSimpleResult + "\"" + String(getTemperature()) + " °C" + "\".\r\n";
+  payloadTurtle += obs + resultTime + "\"" + ts +  "\"^^" + dateTime + ".\r\n";
+  payloadTurtle += "}";
+  return payloadTurtle;
+}
 
 String getTimestamp(){
   time_t now = time(nullptr);
