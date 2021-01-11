@@ -2,14 +2,15 @@
 Project:              Solid enabled IoT sensor platform
 Team:                 INSA 5ISS Solid-IoT team
 Author:               Xiaotong XIE
-Function:             POST sensor data to Solid POD https://solid-iot.solidcommunity.net/iot/
-Fingerprints(SHA1):   99:F4:66:89:DE:98:3A:B4:7F:AC:79:62:84:D1:48:CA:FC:CB:22:B5
-State:                Pass-test
+Function:             POST sensor data to Solid POD https://solid-iot.solidcommunity.net/iot/sensor-001.ttl
+Fingerprints(SHA1):   6C:78:63:9F:07:D2:36:80:B5:94:D7:BD:53:63:2D:71:4D:E2:04:26
+Version:              Demo
 *********************************************************/
 
 #include <ESP8266WiFi.h>
 #include <WiFiClientSecure.h>
 #include <time.h>
+#include <math.h>
 
 #define BAUD_SPEED 115200
 #define PIN_SENSOR A0
@@ -18,22 +19,28 @@ const char* ssid = "HUAWEI"; // WiFi name
 const char* password ="xiexiaotong"; // WiFi password
 
 String host = "solid-iot.solidcommunity.net"; // host
-String urlParams = "iot/"; // path
-const char fingerPrint[] PROGMEM = "99:F4:66:89:DE:98:3A:B4:7F:AC:79:62:84:D1:48:CA:FC:CB:22:B5"; // SHA1 SSL finger print of the host
+String urlParams = "iot/testxie.ttl"; // path
+const char fingerPrint[] PROGMEM = "6C:78:63:9F:07:D2:36:80:B5:94:D7:BD:53:63:2D:71:4D:E2:04:26"; // SHA1 SSL finger print of the host
 const int httpsPort = 443; // conventional port
 
-String sensor = "http://insa-toulouse.fr/solid-iot/pollution/sensor-xie"; // URIs W3C:sosa
-String hasSimpleResult = "http://www.w3.org/ns/sosa/hasSimpleResult";
-String madeBySensor = "http://www.w3.org/ns/sosa/madeBySensor";
-String resultTime = "http://www.w3.org/ns/sosa/resultTime";
-String dateTime = "http://www.w3.org/2001/XMLSchema#dateTime";
+String sensor = "<http://insa-toulouse.fr/solid-iot/pollution/sensor-001>";
+String observation = "<http://www.w3.org/ns/sosa/Observation>"; // URIs W3C:sosa
+String hasSimpleResult = "<http://www.w3.org/ns/sosa/hasSimpleResult>"; 
+String madeBySensor = "<http://www.w3.org/ns/sosa/madeBySensor>";
+String resultTime = "<http://www.w3.org/ns/sosa/resultTime>";
+String dateTime = "<http://www.w3.org/2001/XMLSchema#dateTime>";
 
-int timezone = 1 * 3600; // Unit second for NTP
+const char* timezone = "CET-1CEST-2,M3.5.0/02:00:00,M10.5.0/03:00:00"; // Time Zone Abbreviations of France
 int i=0;
+
+const int B=4275; // Parameter of Temperture Sensor B value of the thermistor
 
 
 void setup() {
   delay(1000);
+
+  // Configuration of pin mode
+  pinMode(PIN_SENSOR,INPUT);
   
   // WiFi connection
   Serial.begin(BAUD_SPEED);
@@ -52,12 +59,10 @@ void setup() {
   Serial.println(WiFi.localIP());
   Serial.println("==============================================================================");
 
-  // Configuration of pin mode
-  pinMode(PIN_SENSOR,INPUT);
-
   // NTP server
   Serial.print("Connecting to NTP");
-  configTime(timezone, 0, "pool.ntp.org","time.nist.gov"); // Fetch time from NTP server
+  configTime(0, 0, "pool.ntp.org","time.nist.gov"); // Fetch time from NTP server
+  setenv("TZ", timezone, 1);
   while(!time(nullptr)){
     Serial.print(" .");
     delay(1000);   
@@ -75,32 +80,33 @@ void setup() {
   Serial.println("==============================================================================");
 
   // For test!
-  postContent();
+  //postContent();
 }
 
 
 void loop() {
-  
+  postContent();
+  delay(60000);
 }
 
 
 void postContent(){
   // Get timestamp
   String ts = getTimestamp();
-  String obs = "http://insa-toulouse.fr/solid-iot/pollution/obs-"+ts;
-  // String for JSON format
-  String payloadJson = "{\"@id\":\"" + obs + "\",";
-  payloadJson += "\"" + hasSimpleResult + "\":[{\"@value\":\"" + String(analogRead(PIN_SENSOR)) + "\",\"@language\":\"en\"}],";
-  payloadJson += "\"" + madeBySensor + "\":[{\"@id\":\"" + sensor + "\"}],";
-  payloadJson += "\"" + resultTime + "\":[{\"@value\":\"" + ts +  "\",\"@type\":\"" + dateTime + "\"}]";
-  payloadJson += "}";
+  String obs = "<http://insa-toulouse.fr/solid-iot/pollution/obs-"+ts+">";
+  // String for Turtle format
+  String payloadTurtle = "INSERT DATA{\r\n";
+  payloadTurtle += obs + " a " + observation + ".\r\n";
+  payloadTurtle += obs + hasSimpleResult + "\"" + String(getTemperature()) + " °C" + "\".\r\n";
+  payloadTurtle += obs + resultTime + "\"" + ts +  "\"^^" + dateTime + ".\r\n";
+  payloadTurtle += "}";
   // String for https request
-  String httpsRequest = String("POST /iot")+" HTTP/1.1\r\n" +
+  String httpsRequest = String("PATCH /iot/sensor-001.ttl")+" HTTP/1.1\r\n" +
                        "Host: " + host + "\r\n" +
                        "Connection: close\r\n" +
-                       "Content-Length: " + String(payloadJson.length()) +"\r\n" +
-                       "Content-Type: application/ld+json\r\n\r\n" +
-                       payloadJson; 
+                       "Content-Length: " + String(payloadTurtle.length()) +"\r\n" +
+                       "Content-Type: application/sparql-update\r\n\r\n" +
+                       payloadTurtle; 
   // Use WiFiClientSecure class to create TLS connection
   WiFiClientSecure httpsClient;
   Serial.print("Connecting to "); 
@@ -118,16 +124,16 @@ void postContent(){
   }
   Serial.println();
   if(r==15) {
-    Serial.println("Connection failed!");
+    Serial.println("HTTPS connection failed!");
   }
   else {
-    Serial.println("Connection successful!");
+    Serial.println("HTTPS connection successful!");
   }
 
   // Connection etablished
   httpsClient.print(httpsRequest);
   Serial.println("Request sent!");
-  
+  Serial.println(httpsRequest);
   // Response from the web server
   while (httpsClient.connected()) {
     String line = httpsClient.readStringUntil('\n');
@@ -158,4 +164,13 @@ String getTimestamp(){
   String secondStr = p_tm->tm_sec < 10 ? "0" + String(p_tm->tm_sec) : String(p_tm->tm_sec); // ss
   String timestamp = yearStr+"-"+monthStr+"-"+dayStr+"T"+hourStr+":"+minuteStr+":"+secondStr+"Z"; //YYYY-MM-DDThh:mm:ssZ
   return timestamp;
+}
+
+
+float getTemperature(){
+  int a = analogRead(A0);
+  float R = 1023.0/((float)a)-1.0;
+  R=100000.0*R;
+  float temperature = 1.0/(log(R/100000.0)/B+1/298.15)-273.15; //convert to tempe rature via datasheet
+  return temperature;
 }
