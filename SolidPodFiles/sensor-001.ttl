@@ -1,0 +1,48 @@
+@prefix : <#>.
+@prefix sos: <http://www.w3.org/ns/sosa/>.
+@prefix XML: <http://www.w3.org/2001/XMLSchema#>.
+
+<http://insa-toulouse.fr/solid-iot/pollution/obs-2021-01-11T21:43:55Z>
+    a sos:Observation;
+    sos:hasSimpleResult "26.59 \u00b0C";
+    sos:resultTime "2021-01-11T21:43:55Z"^^XML:dateTime.
+<http://insa-toulouse.fr/solid-iot/pollution/obs-2021-01-11T21:44:57Z>
+    a sos:Observation;
+    sos:hasSimpleResult "26.43 \u00b0C";
+    sos:resultTime "2021-01-11T21:44:57Z"^^XML:dateTime.
+<http://insa-toulouse.fr/solid-iot/pollution/obs-2021-01-11T21:45:59Z>
+    a sos:Observation;
+    sos:hasSimpleResult "26.35 \u00b0C";
+    sos:resultTime "2021-01-11T21:45:59Z"^^XML:dateTime.
+<http://insa-toulouse.fr/solid-iot/pollution/obs-2021-01-11T21:47:01Z>
+    a sos:Observation;
+    sos:hasSimpleResult "27.34 \u00b0C";
+    sos:resultTime "2021-01-11T21:47:01Z"^^XML:dateTime.
+<http://insa-toulouse.fr/solid-iot/pollution/obs-2021-01-11T21:48:04Z>
+    a sos:Observation;
+    sos:hasSimpleResult "44.71 \u00b0C";
+    sos:resultTime "2021-01-11T21:48:04Z"^^XML:dateTime.
+<http://insa-toulouse.fr/solid-iot/pollution/obs-2021-01-11T21:49:05Z>
+    a sos:Observation;
+    sos:hasSimpleResult "33.60 \u00b0C";
+    sos:resultTime "2021-01-11T21:49:05Z"^^XML:dateTime.
+<http://insa-toulouse.fr/solid-iot/pollution/obs-2021-01-11T21:50:07Z>
+    a sos:Observation;
+    sos:hasSimpleResult "30.71 \u00b0C";
+    sos:resultTime "2021-01-11T21:50:07Z"^^XML:dateTime.
+<http://insa-toulouse.fr/solid-iot/pollution/obs-2021-01-11T21:51:09Z>
+    a sos:Observation;
+    sos:hasSimpleResult "29.09 \u00b0C";
+    sos:resultTime "2021-01-11T21:51:09Z"^^XML:dateTime.
+<http://insa-toulouse.fr/solid-iot/pollution/obs-2021-01-11T21:52:11Z>
+    a sos:Observation;
+    sos:hasSimpleResult "27.09 \u00b0C";
+    sos:resultTime "2021-01-11T21:52:11Z"^^XML:dateTime.
+<http://insa-toulouse.fr/solid-iot/pollution/obs-2021-01-11T21:53:13Z>
+    a sos:Observation;
+    sos:hasSimpleResult "25.77 \u00b0C";
+    sos:resultTime "2021-01-11T21:53:13Z"^^XML:dateTime.
+<http://insa-toulouse.fr/solid-iot/pollution/obs-2021-01-11T21:54:15Z>
+    a sos:Observation;
+    sos:hasSimpleResult "25.53 \u00b0C";
+    sos:resultTime "2021-01-11T21:54:15Z"^^XML:dateTime.

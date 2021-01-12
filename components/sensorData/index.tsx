@@ -47,10 +47,11 @@ import {
   Zoom,
 } from "@syncfusion/ej2-react-maps";
 import SensorMap from "../sensorMap";
+import { publicDataDirURI } from "../../pages";
 
 // TODO
 async function LastValue(name: string): Promise<string> {
-  const sensorDataUri = `https://solid.luxumbra.fr/iot/observations/${name}.ttl`;
+  const sensorDataUri = `${publicDataDirURI}${name}.ttl`;
   // console.log(`Le nom du thing sensor est : ${name}`);
   let dataset: SolidDataset;
   try {
@@ -59,7 +60,7 @@ async function LastValue(name: string): Promise<string> {
     console.log(`LAST VALUE  : erreur de getSolidDataset : ${e}`);
   }
   const observations = getThingAll(dataset);
-  const obs1 = observations[0];
+  const obs1 = observations[observations.length - 1];
   const value: string = getStringNoLocale(
     obs1,
     "http://www.w3.org/ns/sosa/hasSimpleResult"
@@ -69,7 +70,7 @@ async function LastValue(name: string): Promise<string> {
 }
 
 export default function SensorDataMap(prop): React.ReactElement {
-  const pollutionURI = "https://solid.luxumbra.fr/iot/sensors.ttl";
+  const pollutionURI = `${publicDataDirURI}sensors.ttl`;
   const [sensorList, setSensorList] = useState([]);
   useEffect(() => {
     // Create an scoped async function in the hook
@@ -119,10 +120,10 @@ export default function SensorDataMap(prop): React.ReactElement {
       setSensorList(sensorList);
     }
     const a = hookFunction();
-  }, [sensorList]);
+  }, [pollutionURI, sensorList]);
 
-  return <SensorMap sensors={sensorList} route={prop.route} />;
-  /* console.log("Map sensors are : ", sensorList);
+  // return <SensorMap sensors={sensorList} route={prop.route} />;
+  console.log("Map sensors are : ", sensorList);
   return (
     <Container>
       <MapsComponent
@@ -163,5 +164,5 @@ export default function SensorDataMap(prop): React.ReactElement {
         </LayersDirective>
       </MapsComponent>
     </Container>
-  ); */
+  );
 }

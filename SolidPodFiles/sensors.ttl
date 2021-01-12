@@ -1,0 +1,31 @@
+
+@prefix : <#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix pol: <http://insa-toulouse.fr/solid-iot/pollution/>.
+@prefix sos: <http://www.w3.org/ns/sosa/>.
+@prefix XML: <http://www.w3.org/2001/XMLSchema#>.
+@prefix schem: <http://schema.org/>.
+@prefix foaf: <http://xmlns.com/foaf/0.1/>.
+
+:sensor-001
+    a sos:Sensor;
+    schem:latitude 43.56869;
+    schem:longitude 1.46993;
+    foaf:name "sensor-001";
+    rdfs:label "Forth pollution sensor at INSA campus."@en.
+
+
+:sensor-002
+    a sos:Sensor;
+    schem:latitude 43.57079;
+    schem:longitude 1.46625;
+    foaf:name "sensor-002";
+    rdfs:label "Forth pollution sensor at INSA campus."@en.
+
+
+:sensor-003
+    a sos:Sensor;
+    schem:latitude 43.56976;
+    schem:longitude 1.46782;
+    foaf:name "sensor-003";
+    rdfs:label "Forth pollution sensor at INSA campus."@en.

@@ -1,0 +1,12 @@
+@prefix : <#>.
+@prefix sos: <http://www.w3.org/ns/sosa/>.
+@prefix XML: <http://www.w3.org/2001/XMLSchema#>.
+
+<http://insa-toulouse.fr/solid-iot/pollution/obs-2021-01-11T21:43:55Z>
+    a sos:Observation;
+    sos:hasSimpleResult "26.59 \u00b0C";
+    sos:resultTime "2021-01-11T21:43:55Z"^^XML:dateTime.
+<http://insa-toulouse.fr/solid-iot/pollution/obs-2021-01-11T21:44:57Z>
+    a sos:Observation;
+    sos:hasSimpleResult "26.43 \u00b0C";
+    sos:resultTime "2021-01-11T21:44:57Z"^^XML:dateTime.

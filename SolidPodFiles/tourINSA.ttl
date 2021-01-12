@@ -1,0 +1,135 @@
+@prefix : <#>.
+@prefix schem: <http://schema.org/>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+
+
+:point-001
+    schem:latitude 43.57125022761893;
+    schem:longitude 1.4690780639648438;
+    rdfs:label "Point on a route"@en.
+
+:point-002
+    schem:latitude 43.57118804172471;
+    schem:longitude 1.4686274528503418;
+    rdfs:label "Point on a route"@en.
+
+:point-003
+    schem:latitude 43.57041071262921;
+    schem:longitude 1.4687776565551758;
+    rdfs:label "Point on a route"@en.
+
+:point-004
+    schem:latitude 43.57022415215344;
+    schem:longitude 1.4682841300964355;
+    rdfs:label "Point on a route"@en.
+
+
+:point-005
+    schem:latitude 43.56988212311368;
+    schem:longitude 1.4686274528503418;
+    rdfs:label "Point on a route"@en.
+
+:point-006
+    schem:latitude 43.569695561000586;
+    schem:longitude 1.4680695533752441;
+    rdfs:label "Point on a route"@en.
+
+:point-007
+    schem:latitude 43.57089265785026;
+    schem:longitude 1.466996669769287;
+    rdfs:label "Point on a route"@en.
+
+:point-008
+    schem:latitude 43.570503992650366;
+    schem:longitude 1.4664816856384277;
+    rdfs:label "Point on a route"@en.
+
+:point-009
+    schem:latitude 43.57083047158681;
+    schem:longitude 1.4661812782287598;
+    rdfs:label "Point on a route"@en.
+
+:point-0010
+    schem:latitude 43.57100148365675;
+    schem:longitude 1.4665675163269043;
+    rdfs:label "Point on a route"@en.
+
+:point-011
+    schem:latitude 43.57065945903131;
+    schem:longitude 1.46592378616333;
+    rdfs:label "Point on a route"@en.
+
+:point-012
+    schem:latitude 43.570675005647324;
+    schem:longitude 1.465451717376709;
+    rdfs:label "Point on a route"@en.
+
+:point-013
+    schem:latitude 43.57034852586817;
+    schem:longitude 1.4658594131469727;
+    rdfs:label "Point on a route"@en.
+
+:point-014
+    schem:latitude 43.570970390589245;
+    schem:longitude 1.4653873443603516;
+    rdfs:label "Point on a route"@en.
+
+:point-015
+    schem:latitude 43.5714678777431;
+    schem:longitude 1.4665460586547852;
+    rdfs:label "Point on a route"@en.
+
+:point-016
+    schem:latitude 43.57177880512749;
+    schem:longitude 1.4667177200317383;
+    rdfs:label "Point on a route"@en.
+
+:point-017
+    schem:latitude 43.57201199961236;
+    schem:longitude 1.4672327041625974;
+    rdfs:label "Point on a route"@en.
+
+:point-018
+    schem:latitude 43.57235401655686;
+    schem:longitude 1.4672112464904785;
+    rdfs:label "Point on a route"@en.
+
+:point-019
+    schem:latitude 43.572229646983594;
+    schem:longitude 1.466975212097168;
+    rdfs:label "Point on a route"@en.
+
+:point-020
+    schem:latitude 43.57168552708072;
+    schem:longitude 1.4675116539001465;
+    rdfs:label "Point on a route"@en.
+
+:point-021
+    schem:latitude 43.57199645334145;
+    schem:longitude 1.4679622650146482;
+    rdfs:label "Point on a route"@en.
+
+:point-022
+    schem:latitude 43.57191872192677;
+    schem:longitude 1.4684772491455078;
+    rdfs:label "Point on a route"@en.
+
+:point-023
+    schem:latitude 43.57216746210063;
+    schem:longitude 1.4688205718994138;
+    rdfs:label "Point on a route"@en.
+
+:point-024
+    schem:latitude 43.572276285603664;
+    schem:longitude 1.469099521636963;
+    rdfs:label "Point on a route"@en.
+
+:point-025
+    schem:latitude 43.57249393201979;
+    schem:longitude 1.4690136909484863;
+    rdfs:label "Point on a route"@en.
+
+:point-026
+    schem:latitude 43.5715145169531;
+    schem:longitude 1.469099521636963;
+    rdfs:label "Point on a route"@en.

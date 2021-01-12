@@ -29,6 +29,9 @@ import RouteData from "../components/routeData";
 import PollutionFetcher from "../components/pollution";
 import SensorMap from "../components/sensorMap";
 
+export const publicDataDirURI = "https://solid-iot.solidcommunity.net/iot/";
+export const privateDataDirUri = "https://sebastia.solidweb.org/private/";
+
 export default function Home(): React.ReactElement {
   const { session } = useSession();
 

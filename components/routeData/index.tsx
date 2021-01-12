@@ -25,26 +25,22 @@ import { getDecimal, getThingAll } from "@inrupt/solid-client";
 import { Container } from "@material-ui/core";
 import SensorMap from "../sensorMap";
 import SensorData from "../sensorData";
+import { privateDataDirUri } from "../../pages";
 
 export default function RouteData(): React.ReactElement {
   const { session } = useSession();
   const { webId } = session.info;
-  const routeURI = "https://sebastia.solidweb.org/private/tourINSA.ttl";
+  const routeURI = `${privateDataDirUri}tourINSA.ttl`;
   const route = {
     latitudes: [],
     longitudes: [],
   };
   const { dataset, error } = useDataset(routeURI);
   if (error) {
-    console.log(
-      "Echec de la tentative de connexion au Pod : Accès requiert authentification"
-    );
+    console.log("Veuillez vous authentifier pour visualiser votre trajet");
     return (
       <Container>
-        <p>
-          Echec de la tentative de connexion au Pod : Accès au routes requiert
-          une authentification
-        </p>
+        <p>Veuillez vous authentifier pour visualiser votre trajet</p>
         <SensorData route={route} />
       </Container>
     );
