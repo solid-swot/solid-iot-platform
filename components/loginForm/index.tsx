@@ -22,9 +22,10 @@
 import { useState, useEffect } from "react";
 import { LoginButton } from "@inrupt/solid-ui-react";
 import { Button, TextField, FormGroup, Container } from "@material-ui/core";
+import { privateDataDirUri, publicDataDirURI } from "../../pages";
 
 export default function LoginForm(): React.ReactElement {
-  const [idp, setIdp] = useState("https://sebastia.solidweb.org/");
+  const [idp, setIdp] = useState("");
   const [currentUrl, setCurrentUrl] = useState("https://localhost:3000");
 
   useEffect(() => {
