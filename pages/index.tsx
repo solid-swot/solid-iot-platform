@@ -34,12 +34,31 @@ export const privateDataDirUri = "https://sebastia.solidweb.org/private/";
 
 export default function Home(): React.ReactElement {
   const { session } = useSession();
+  const emptyRoute = {
+    latitudes: [],
+    longitudes: [],
+  };
+
+  /* return (
+    <Container>
+      <Box style={{ marginBottom: 16, textAlign: "right" }}>
+        <LogoutButton>
+          <Button variant="contained" color="primary">
+            Log&nbsp;out
+          </Button>
+        </LogoutButton>
+      </Box>
+      <p>Veuillez vous authentifier pour visualiser votre trajet</p>
+      <SensorData route={emptyRoute} />
+    </Container>
+  ); */
 
   if (!session.info.isLoggedIn) {
     return (
       <Container>
         <LoginForm />
-        <RouteData />
+        <p>Veuillez vous authentifier pour visualiser votre trajet</p>
+        <SensorData route={emptyRoute} />
       </Container>
     );
   }

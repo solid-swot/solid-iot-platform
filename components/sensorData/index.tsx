@@ -49,7 +49,6 @@ import {
 import SensorMap from "../sensorMap";
 import { publicDataDirURI } from "../../pages";
 
-// TODO
 async function LastValue(name: string): Promise<string> {
   const sensorDataUri = `${publicDataDirURI}${name}.ttl`;
   // console.log(`Le nom du thing sensor est : ${name}`);
@@ -122,8 +121,11 @@ export default function SensorDataMap(prop): React.ReactElement {
     const a = hookFunction();
   }, [pollutionURI, sensorList]);
 
-  // return <SensorMap sensors={sensorList} route={prop.route} />;
-  console.log("Map sensors are : ", sensorList);
+  /* if (sensorList.length === 0) {
+    return <div>loading...</div>;
+  } */
+  return <SensorMap sensors={sensorList} route={prop.route} />;
+  /* console.log("Map sensors are : ", sensorList);
   return (
     <Container>
       <MapsComponent
@@ -164,5 +166,5 @@ export default function SensorDataMap(prop): React.ReactElement {
         </LayersDirective>
       </MapsComponent>
     </Container>
-  );
+  ); */
 }

@@ -37,10 +37,9 @@ export default function RouteData(): React.ReactElement {
   };
   const { dataset, error } = useDataset(routeURI);
   if (error) {
-    console.log("Veuillez vous authentifier pour visualiser votre trajet");
+    console.log("Erreur de Dataset");
     return (
       <Container>
-        <p>Veuillez vous authentifier pour visualiser votre trajet</p>
         <SensorData route={route} />
       </Container>
     );
