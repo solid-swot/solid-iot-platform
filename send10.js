@@ -29,7 +29,7 @@ var options = {
 urlObject = "INSERT DATA{\r\n";
 obs = "<http://insa-toulouse.fr/solid-iot/pollution/obs-"+timetrans(date)+">";
 urlObject += obs + " a " + "<http://www.w3.org/ns/sosa/Observation>" + ".\r\n";
-urlObject += obs+"<http://www.w3.org/ns/sosa/hasSimpleResult> "+"\""+PM+"\u2103"+"\"@en.\r\n";
+urlObject += obs+"<http://www.w3.org/ns/sosa/hasSimpleResult> "+"\""+PM+" \u00b0C"+"\"@en.\r\n";
 urlObject += obs+"<http://www.w3.org/ns/sosa/resultTime> "+"\""+timetrans(date)+"\""+"^^"+"<http://www.w3.org/2001/XMLSchema#dateTime>.\r\n"
 //urlObject += obs+"<http://www.w3.org/ns/sosa/madeBySensor> "+"<http://insa-toulouse.fr/solid-iot/pollution/sensor-Temperature>.\r\n"
 
