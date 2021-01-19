@@ -105,7 +105,7 @@ export default function SensorDataMap(prop): React.ReactElement {
             latitude: lat,
             longitude: long,
             value: val,
-          }); // value: val,
+          });
         } else {
           sensorList[i] = {
             latitude: lat,
@@ -113,7 +113,7 @@ export default function SensorDataMap(prop): React.ReactElement {
             value: val,
           };
         }
-        console.log("sensors est : ", sensorList);
+        console.log("FOREACH Things : sensors is : ", sensorList);
         // setSensorList(sensorList);
       }
       setSensorList(sensorList);
@@ -121,11 +121,11 @@ export default function SensorDataMap(prop): React.ReactElement {
     const a = hookFunction();
   }, [pollutionURI, sensorList]);
 
-  /* if (sensorList.length === 0) {
+  if (sensorList.length === 0) {
     return <div>loading...</div>;
-  } */
-  return <SensorMap sensors={sensorList} route={prop.route} />;
-  /* console.log("Map sensors are : ", sensorList);
+  }
+  // return <SensorMap sensors={sensorList} route={prop.route} />;
+  console.log("Map sensors are : ", sensorList);
   return (
     <Container>
       <MapsComponent
@@ -166,5 +166,5 @@ export default function SensorDataMap(prop): React.ReactElement {
         </LayersDirective>
       </MapsComponent>
     </Container>
-  ); */
+  );
 }

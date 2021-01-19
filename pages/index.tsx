@@ -39,20 +39,6 @@ export default function Home(): React.ReactElement {
     longitudes: [],
   };
 
-  /* return (
-    <Container>
-      <Box style={{ marginBottom: 16, textAlign: "right" }}>
-        <LogoutButton>
-          <Button variant="contained" color="primary">
-            Log&nbsp;out
-          </Button>
-        </LogoutButton>
-      </Box>
-      <p>Veuillez vous authentifier pour visualiser votre trajet</p>
-      <SensorData route={emptyRoute} />
-    </Container>
-  ); */
-
   if (!session.info.isLoggedIn) {
     return (
       <Container>
